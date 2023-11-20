@@ -17,7 +17,7 @@ public class Player {
     public float WIDTH;
     public float HEIGHT;
     public float MAX_VELOCITY = 10f;
-    public float JUMP_VELOCITY = 40f;
+    public float JUMP_VELOCITY = 5f;
     public float DAMPING = 0.87f;
 
     enum State {
@@ -41,6 +41,10 @@ public class Player {
         playerTexture = new Texture(Gdx.files.internal("DebugSquare16.png"));
     }
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public void render() {
         // the 16 should be replaced with the size of the character
         // this assumes that the player is always 16 by 16
@@ -60,10 +64,15 @@ public class Player {
             velocity.x -= MAX_VELOCITY;
             facesRight = false;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            velocity.y += JUMP_VELOCITY;
+            state = state.Jumping;
+        }
+
 
         // Add gravity so we don't infinitely move up
         // Clamp velocity.x, so we don't gain infinite speed
-        // velocity.y += GRAVITY;
+        if(velocity.y>-JUMP_VELOCITY) velocity.y += GRAVITY;
         velocity.x = MathUtils.clamp(velocity.x, -MAX_VELOCITY, MAX_VELOCITY);
 
         // Set to zero if velocity is small enough so that we don't have a memory overload velocity.x

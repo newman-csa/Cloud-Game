@@ -43,6 +43,7 @@ public class Level1In16Bit implements Screen {
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         player.update(deltaTime);
+        boot.camera.position.set(player.getPosition(),0);
 
     }
 
