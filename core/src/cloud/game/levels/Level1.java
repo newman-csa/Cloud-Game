@@ -1,11 +1,11 @@
-package my.game.levels;
+package cloud.game.levels;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
-import my.game.Boot;
-import my.game.utils.AssetsLoader;
+import cloud.game.Boot;
+import cloud.game.utils.AssetsLoader;
 
 public class Level1 implements Screen {
     private final Boot boot;

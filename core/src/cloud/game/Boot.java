@@ -1,31 +1,37 @@
 package cloud.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import cloud.game.levels.Level1;
+import cloud.game.levels.Level1In16Bit;
+import cloud.game.utils.AssetsLoader;
 
-public class Boot extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class Boot extends Game {
+	public SpriteBatch batch;
+	public OrthographicCamera camera;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		camera = new OrthographicCamera();
+
+
+		this.setScreen(new Level1In16Bit(this));
+
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }

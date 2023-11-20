@@ -1,15 +1,15 @@
-package my.game.levels;
+package cloud.game.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
-import my.game.Boot;
-import my.game.sprites.Player;
-import my.game.utils.AssetsLoader;
+import cloud.game.Boot;
+import cloud.game.sprites.Player;
+import cloud.game.utils.AssetsLoader;
 
-import static my.game.utils.Constants.UNIT_SCALE;
+import static cloud.game.utils.Constants.UNIT_SCALE;
 
 public class Level1In16Bit implements Screen {
     private final Boot boot;

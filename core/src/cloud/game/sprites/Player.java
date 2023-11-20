@@ -1,14 +1,14 @@
-package my.game.sprites;
+package cloud.game.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import my.game.Boot;
+import cloud.game.Boot;
 
-import static my.game.utils.Constants.GRAVITY;
-import static my.game.utils.Constants.UNIT_SCALE;
+import static cloud.game.utils.Constants.GRAVITY;
+import static cloud.game.utils.Constants.UNIT_SCALE;
 
 public class Player {
     private final Boot boot;
