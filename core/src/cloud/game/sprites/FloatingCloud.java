@@ -17,5 +17,5 @@ public class FloatingCloud {
     private SpriteBatch batch;
     private Array<Rectangle> Enemies;
 
-    private void moveEnemy()
+    private void moveEnemy(){}
 }
