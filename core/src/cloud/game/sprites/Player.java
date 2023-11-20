@@ -31,6 +31,7 @@ public class Player {
     private float stateTime = 0;
     private boolean facesRight = true;
     private boolean grounded = false;
+    private boolean jumpAvailable = true;
 
     public Player(final Boot boot, float xPos, float yPos) {
         this.boot = boot;
@@ -51,6 +52,17 @@ public class Player {
         boot.batch.draw(playerTexture, position.x, position.y, UNIT_SCALE * 16, UNIT_SCALE * 16);
     }
 
+    public Vector2 getVelocity(){
+        return velocity;
+    }
+    public void setVelocity(Vector2 newVelocity){
+        velocity = newVelocity;
+    }
+
+    public void setJumpAvailable(Boolean jumpAvailable){
+        this.jumpAvailable = jumpAvailable;
+    }
+
     public void update(float deltaTime) {
         if (deltaTime == 0) return;
 
@@ -64,8 +76,9 @@ public class Player {
             velocity.x -= MAX_VELOCITY;
             facesRight = false;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && jumpAvailable) {
             velocity.y = JUMP_VELOCITY;
+            jumpAvailable = false;
             state = state.Jumping;
         }
 

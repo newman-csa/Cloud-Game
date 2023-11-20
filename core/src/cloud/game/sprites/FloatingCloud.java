@@ -17,7 +17,7 @@ public class FloatingCloud {
     private Array<Rectangle> Enemies;
 
     public FloatingCloud(Boot boot) {
-        this.boot = boot // You can call batch and other redundant object from boot 
+        this.boot = boot; // You can call batch and other redundant object from boot
     }
 
     private void moveEnemy(){}
