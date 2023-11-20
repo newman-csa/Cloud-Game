@@ -17,7 +17,7 @@ public class Player {
     public float WIDTH;
     public float HEIGHT;
     public float MAX_VELOCITY = 10f;
-    public float JUMP_VELOCITY = 5f;
+    public float JUMP_VELOCITY = 40f;
     public float DAMPING = 0.87f;
 
     enum State {
@@ -65,7 +65,7 @@ public class Player {
             facesRight = false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocity.y += JUMP_VELOCITY;
+            velocity.y = JUMP_VELOCITY;
             state = state.Jumping;
         }
 

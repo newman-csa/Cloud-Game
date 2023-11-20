@@ -38,12 +38,16 @@ public class Level1In16Bit implements Screen {
         player.render();
         boot.batch.end();
 
+        boot.camera.position.x = player.getPosition().x;
+        boot.camera.position.y = player.getPosition().y;
+        boot.camera.update();
+
+        boot.camera.position.set(player.getPosition(),0);
         mapRenderer.setView(boot.camera);
         mapRenderer.render();
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         player.update(deltaTime);
-        boot.camera.position.set(player.getPosition(),0);
 
     }
 
