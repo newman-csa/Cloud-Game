@@ -21,6 +21,8 @@ public class B2dModel {
         createStaticBody(shape);
         createObject();
         createMovingObject();
+
+        shape.dispose();
     }
 
     private void createStaticBody(PolygonShape shape) {
@@ -31,8 +33,14 @@ public class B2dModel {
         // add it to the world
         bodyd = world.createBody(bodyDef);
 
+        // Fixture Defintion
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.8f;
         // create the physical object in our body)
-        bodyd.createFixture(shape, 0.0f);
+        bodyd.createFixture(fixtureDef);
         shape.dispose();
     }
 
@@ -58,7 +66,7 @@ public class B2dModel {
 
         // create the physical object in our body)
         // without this our body would just be data in the world
-        bodys.createFixture(shape, 0.0f);
+        bodys.createFixture(fixtureDef);
 
         // we no longer use the shape object here so dispose of it.
         shape.dispose();
@@ -86,7 +94,7 @@ public class B2dModel {
 
         // create the physical object in our body)
         // without this our body would just be data in the world
-        bodyk.createFixture(shape, 0.0f);
+        bodyk.createFixture(fixtureDef);
 
         // we no longer use the shape object here so dispose of it.
         shape.dispose();

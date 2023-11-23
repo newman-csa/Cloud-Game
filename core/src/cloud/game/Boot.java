@@ -20,7 +20,7 @@ public class Boot extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		camera = new OrthographicCamera(16, 12);
+		camera = new OrthographicCamera(32, 24);
 
 
 		this.setScreen(new Level1In16Bit(this));
