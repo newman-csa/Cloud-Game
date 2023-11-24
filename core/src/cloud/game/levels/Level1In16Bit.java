@@ -1,58 +1,81 @@
 package cloud.game.levels;
 
 import cloud.game.utils.B2dModel;
+import cloud.game.utils.TiledMapUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import cloud.game.Boot;
-import cloud.game.sprites.Player;
 import cloud.game.utils.AssetsLoader;
 
-import static cloud.game.utils.Constants.GRAVITY;
 import static cloud.game.utils.Constants.UNIT_SCALE;
 
 public class Level1In16Bit implements Screen {
     private final Boot boot;
     private final AssetsLoader assetsLoader;
+    private final TiledMapUtils mapUtils;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer debugRenderer;
     private B2dModel model;
     private TiledMap map;
-    //private Player player;
+
+    // TODO: Test variables to be put in a different class
+    private Body myBody;
 
     public Level1In16Bit(final Boot boot) {
         this.boot = boot;
 
+        // Load Map and Collision
         assetsLoader = new AssetsLoader();
         map = assetsLoader.loadMap("level1In16Bit/level1In16Bit.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
-
-        //boot.camera.setToOrtho(false, 32, 24);
-        //boot.camera.position.set((new Vector3(-10f, -10f, 0f)));
-
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/UNIT_SCALE);
         model = new B2dModel();
+        mapUtils = new TiledMapUtils(map, model);
+
+        // Debug shape creation of different body types
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
+        myBody = model.createDynamicBody(shape, 0f, 5f);
+        shape.setAsBox(50f, 0.5f);
+        model.createStaticBody(shape,0, -10);
+        shape.setAsBox(0.5f, 0.5f);
+        Body bodyK = model.createKinematicBody(shape, -0.75f, 6f);
+        bodyK.setLinearVelocity(0, -1f);
+        shape.dispose();
+
         debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
 
     }
 
+    private void update(float delta) {
+        // Update Physics and clear screen for next frame
+        model.logicStep(delta);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Update camera's position
+        Vector3 position = boot.camera.position;
+        position.x = Math.round(myBody.getPosition().x * UNIT_SCALE * 10f) / 10f;
+        position.y = Math.round(myBody.getPosition().y * UNIT_SCALE * 10f) / 10f;
+        System.out.println(myBody.getPosition().x);
+        boot.camera.position.set(position);
+        boot.camera.update();
+    }
+
     @Override
     public void render(float delta) {
-        //ScreenUtils.clear(0f, 0f, 0f, 1f);
+        update(delta);
         //boot.batch.setProjectionMatrix(boot.camera.combined);
-        //boot.camera.update();
 
-        model.logicStep(delta);
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        debugRenderer.render(model.world, boot.camera.combined);
+        debugRenderer.render(model.getWorld(), boot.camera.combined.scl(UNIT_SCALE));
 
+        // TODO: Camera does not move properly with player, causing the map to not render
         mapRenderer.setView(boot.camera);
         mapRenderer.render();
         //player.update(Gdx.graphics.getDeltaTime());
@@ -83,7 +106,8 @@ public class Level1In16Bit implements Screen {
 
     @Override
     public void dispose() {
-        //assetsLoader.assetManager.clear();
+        assetsLoader.assetManager.clear();
         mapRenderer.dispose();
+        model.disposeWorld();
     }
 }

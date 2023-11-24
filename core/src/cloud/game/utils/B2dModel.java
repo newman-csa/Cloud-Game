@@ -1,110 +1,81 @@
 
 package cloud.game.utils;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class B2dModel {
-    public World world;
-    private Box2DDebugRenderer debugRenderer;
-    private OrthographicCamera camera;
-    private Body bodyd;
-    private Body bodys;
-    private Body bodyk;
+    private World world;
 
     public B2dModel() {
         world = new World(new Vector2(0, -10f), true);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(50, 1);
-        createStaticBody(shape);
-        createObject();
-        createMovingObject();
-
-        shape.dispose();
     }
 
-    private void createStaticBody(PolygonShape shape) {
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * Creates a static body given a PolygonShape for the amount of pixels an object is
+     *
+     * @param shape YOU ARE RESPONSIBLE FOR DISPOSING THIS SHAPE AFTER ITS USE.
+     * @param xCoord The x-axis of the CENTER of the created object in world units.
+     * @param yCoord The y-axis of the CENTER of the created object in world units.
+     * @return A static body with the center coordinates of (xCoord, yCoord)
+     */
+    public Body createStaticBody(PolygonShape shape, float xCoord, float yCoord) {
         // create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        //bodyDef.position.set(0, -5);
+        bodyDef.position.set(xCoord, yCoord);
         // add it to the world
-        bodyd = world.createBody(bodyDef);
-
-        // Fixture Defintion
+        Body body = world.createBody(bodyDef);
+        // Fixture Definition
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.5f;
         fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.8f;
-        // create the physical object in our body)
-        bodyd.createFixture(fixtureDef);
-        shape.dispose();
+        body.createFixture(fixtureDef);
+        return body;
     }
 
-    private void createObject() {
-
+    public Body createDynamicBody(PolygonShape shape, float xCoord, float yCoord) {
         //create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, 5);
-
-
+        bodyDef.position.set(xCoord, yCoord);
         // add it to the world
-        bodys = world.createBody(bodyDef);
-
-        // set the shape (here we use a box 50 meters wide, 1 meter tall )
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(1, 1);
-
+        Body body = world.createBody(bodyDef);
         // set the properties of the object ( shape, weight, restitution(bouncyness)
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-
-        // create the physical object in our body)
-        // without this our body would just be data in the world
-        bodys.createFixture(fixtureDef);
-
-        // we no longer use the shape object here so dispose of it.
-        shape.dispose();
+        fixtureDef.restitution = 1f;
+        body.createFixture(fixtureDef);
+        return body;
     }
 
-    private void createMovingObject() {
-
+    public Body createKinematicBody(PolygonShape shape, float xCoord, float yCoord) {
         //create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(0, 6);
-
-
+        bodyDef.position.set(xCoord, yCoord);
         // add it to the world
-        bodyk = world.createBody(bodyDef);
-
-        // set the shape (here we use a box 50 meters wide, 1 meter tall )
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(1, 1);
-
+        Body body = world.createBody(bodyDef);
         // set the properties of the object ( shape, weight, restitution(bouncyness)
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-
-        // create the physical object in our body)
-        // without this our body would just be data in the world
-        bodyk.createFixture(fixtureDef);
-
-        // we no longer use the shape object here so dispose of it.
-        shape.dispose();
-
-        bodyk.setLinearVelocity(0, 0.75f);
+        body.createFixture(fixtureDef);
+        return body;
     }
 
     // our game logic here
     public void logicStep(float delta) {
+        world.step(delta, 6, 6);
+    }
 
-        world.step(delta, 3, 3);
+    public void disposeWorld() {
+        world.dispose();
     }
 }
