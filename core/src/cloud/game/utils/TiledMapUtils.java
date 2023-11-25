@@ -36,13 +36,11 @@ public class TiledMapUtils {
             if (mapObject instanceof PolygonMapObject) {
                 //TODO: Find the world coords of the shape
                 //TODO: Find the world shape of the object
-
                 //float worldXCoord =
                 //float worldYCoord =
 
                 model.createStaticBody(toPolygonShape((PolygonMapObject) mapObject), 0f, 0f);
 
-                // Turn vertices into a PolygonShape
             } else if (mapObject instanceof RectangleMapObject) {
                 RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
                 //Find the world coodinates of the rectangle

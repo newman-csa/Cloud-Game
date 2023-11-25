@@ -4,6 +4,11 @@ package cloud.game.utils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+/**
+ * Class for creating bodies and adding them to the same world instance
+ *
+ * @author newman-csa
+ */
 public class B2dModel {
     private World world;
 
@@ -39,6 +44,14 @@ public class B2dModel {
         return body;
     }
 
+    /**
+     * Creates a dynamic body given a PolygonShape for the amount of pixels an object is
+     *
+     * @param shape YOU ARE RESPONSIBLE FOR DISPOSING THIS SHAPE AFTER ITS USE.
+     * @param xCoord The x-axis of the CENTER of the created object in world units.
+     * @param yCoord The y-axis of the CENTER of the created object in world units.
+     * @return A dynamic body with the center coordinates of (xCoord, yCoord)
+     */
     public Body createDynamicBody(PolygonShape shape, float xCoord, float yCoord) {
         //create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
@@ -56,6 +69,14 @@ public class B2dModel {
         return body;
     }
 
+    /**
+     * Creates a kinematic body given a PolygonShape for the amount of pixels an object is
+     *
+     * @param shape YOU ARE RESPONSIBLE FOR DISPOSING THIS SHAPE AFTER ITS USE.
+     * @param xCoord The x-axis of the CENTER of the created object in world units.
+     * @param yCoord The y-axis of the CENTER of the created object in world units.
+     * @return A kinematic body with the center coordinates of (xCoord, yCoord)
+     */
     public Body createKinematicBody(PolygonShape shape, float xCoord, float yCoord) {
         //create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
