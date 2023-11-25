@@ -43,6 +43,7 @@ public class B2dModel {
         //create a new body definition (type and location)
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.fixedRotation = true;
         bodyDef.position.set(xCoord, yCoord);
         // add it to the world
         Body body = world.createBody(bodyDef);
@@ -50,7 +51,7 @@ public class B2dModel {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.restitution = 1f;
+        fixtureDef.restitution = 0.8f;
         body.createFixture(fixtureDef);
         return body;
     }

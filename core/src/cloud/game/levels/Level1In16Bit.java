@@ -26,7 +26,7 @@ public class Level1In16Bit implements Screen {
     private TiledMap map;
 
     // TODO: Test variables to be put in a different class
-    private Body myBody;
+    private Body bodyD;
 
     public Level1In16Bit(final Boot boot) {
         this.boot = boot;
@@ -37,16 +37,16 @@ public class Level1In16Bit implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1/UNIT_SCALE);
         model = new B2dModel();
         mapUtils = new TiledMapUtils(map, model);
+        mapUtils.parseMapObjects();
 
         // Debug shape creation of different body types
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
-        myBody = model.createDynamicBody(shape, 0f, 5f);
-        shape.setAsBox(50f, 0.5f);
-        model.createStaticBody(shape,0, -10);
-        shape.setAsBox(0.5f, 0.5f);
+        bodyD = model.createDynamicBody(shape, 10f, 5f);
         Body bodyK = model.createKinematicBody(shape, -0.75f, 6f);
         bodyK.setLinearVelocity(0, -1f);
+        shape.setAsBox(50f, 0.5f);
+        model.createStaticBody(shape,0, -10);
         shape.dispose();
 
         debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
@@ -61,9 +61,9 @@ public class Level1In16Bit implements Screen {
 
         // Update camera's position
         Vector3 position = boot.camera.position;
-        position.x = Math.round(myBody.getPosition().x * UNIT_SCALE * 10f) / 10f;
-        position.y = Math.round(myBody.getPosition().y * UNIT_SCALE * 10f) / 10f;
-        System.out.println(myBody.getPosition().x);
+        position.x = Math.round(bodyD.getPosition().x * UNIT_SCALE * 10f) / 10f;
+        position.y = Math.round(bodyD.getPosition().y * UNIT_SCALE * 10f) / 10f;
+        System.out.println(bodyD.getPosition().x);
         boot.camera.position.set(position);
         boot.camera.update();
     }
