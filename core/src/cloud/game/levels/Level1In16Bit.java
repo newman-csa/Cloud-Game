@@ -1,68 +1,84 @@
 package cloud.game.levels;
 
+import cloud.game.utils.B2dModel;
+import cloud.game.utils.TiledMapUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import cloud.game.Boot;
-import cloud.game.sprites.Player;
 import cloud.game.utils.AssetsLoader;
 
-import static cloud.game.utils.Constants.GRAVITY;
 import static cloud.game.utils.Constants.UNIT_SCALE;
 
 public class Level1In16Bit implements Screen {
     private final Boot boot;
     private final AssetsLoader assetsLoader;
+    private final TiledMapUtils mapUtils;
     private OrthogonalTiledMapRenderer mapRenderer;
+    private Box2DDebugRenderer debugRenderer;
+    private B2dModel model;
     private TiledMap map;
-    private Player player;
-    public Rectangle playerRect = new Rectangle(0,0,16,16);
-    public Rectangle groundRect = new Rectangle(0,0,500,10);
+
+    // TODO: Test variables to be put in a different class
+    private Body bodyD;
 
     public Level1In16Bit(final Boot boot) {
         this.boot = boot;
 
+        // Load Map and Collision
         assetsLoader = new AssetsLoader();
         map = assetsLoader.loadMap("level1In16Bit/level1In16Bit.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, UNIT_SCALE);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/UNIT_SCALE);
+        model = new B2dModel();
+        mapUtils = new TiledMapUtils(map, model);
+        mapUtils.parseMapObjects();
 
-        boot.camera.setToOrtho(false, 20, 15);
+        // Debug shape creation of different body types
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
+        bodyD = model.createDynamicBody(shape, 10f, 5f);
+        Body bodyK = model.createKinematicBody(shape, -0.75f, 6f);
+        bodyK.setLinearVelocity(0, -1f);
+        shape.setAsBox(50f, 0.5f);
+        model.createStaticBody(shape,0, -10);
+        shape.dispose();
 
-        player = new Player(boot, 3f, 5f);
-        playerRect.x = player.getPosition().x;
-        playerRect.y = player.getPosition().y;
+        debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
+
+    }
+
+    private void update(float delta) {
+        // Update Physics and clear screen for next frame
+        model.logicStep(delta);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Update camera's position
+        Vector3 position = boot.camera.position;
+        position.x = Math.round(bodyD.getPosition().x * UNIT_SCALE * 10f) / 10f;
+        position.y = Math.round(bodyD.getPosition().y * UNIT_SCALE * 10f) / 10f;
+        System.out.println(bodyD.getPosition().x);
+        boot.camera.position.set(position);
+        boot.camera.update();
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0.5f, 1, 1);
-        boot.batch.setProjectionMatrix(boot.camera.combined);
-        boot.batch.begin();
-        player.render();
-        boot.batch.end();
-        playerRect.x = player.getPosition().x;
-        playerRect.y = player.getPosition().y;
+        update(delta);
+        //boot.batch.setProjectionMatrix(boot.camera.combined);
 
-        boot.camera.position.x = player.getPosition().x;
-        boot.camera.position.y = player.getPosition().y;
-        boot.camera.update();
+        debugRenderer.render(model.getWorld(), boot.camera.combined.scl(UNIT_SCALE));
 
-        boot.camera.position.set(player.getPosition(),0);
+        // TODO: Camera does not move properly with player, causing the map to not render
         mapRenderer.setView(boot.camera);
         mapRenderer.render();
-
-        float deltaTime = Gdx.graphics.getDeltaTime();
-        player.update(deltaTime);
-        Vector2 abc = new Vector2(0,-GRAVITY);
-        if(playerRect.overlaps(groundRect)){
-            player.setVelocity(abc);
-            player.setJumpAvailable(true);
-        }
-
+        //player.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override
@@ -91,7 +107,7 @@ public class Level1In16Bit implements Screen {
     @Override
     public void dispose() {
         assetsLoader.assetManager.clear();
-        player.playerTexture.dispose();
         mapRenderer.dispose();
+        model.disposeWorld();
     }
 }

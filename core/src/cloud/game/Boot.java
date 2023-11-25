@@ -1,17 +1,11 @@
 package cloud.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.ScreenUtils;
-import cloud.game.levels.Level1;
 import cloud.game.levels.Level1In16Bit;
-import cloud.game.utils.AssetsLoader;
+
+import static cloud.game.utils.Constants.UNIT_SCALE;
 
 public class Boot extends Game {
 	public SpriteBatch batch;
@@ -20,7 +14,7 @@ public class Boot extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera(32*UNIT_SCALE, 18*UNIT_SCALE);
 
 
 		this.setScreen(new Level1In16Bit(this));

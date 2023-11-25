@@ -49,7 +49,7 @@ public class Player {
     public void render() {
         // the 16 should be replaced with the size of the character
         // this assumes that the player is always 16 by 16
-        boot.batch.draw(playerTexture, position.x, position.y, UNIT_SCALE * 16, UNIT_SCALE * 16);
+        boot.batch.draw(playerTexture, position.x, position.y, 16 / UNIT_SCALE, 16 / UNIT_SCALE);
     }
 
     public Vector2 getVelocity(){
