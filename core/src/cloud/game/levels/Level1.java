@@ -78,6 +78,7 @@ public class Level1 implements Screen {
         // TODO: Camera does not move properly with player, causing the map to not render
         mapRenderer.setView(boot.camera);
         mapRenderer.render();
+        //player.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override

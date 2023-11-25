@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import cloud.game.Boot;
 
-import static cloud.game.utils.Constants.GRAVITY;
-import static cloud.game.utils.Constants.UNIT_SCALE;
+import static cloud.utils.Constants.GRAVITY;
+import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Player {
     private final Boot boot;
