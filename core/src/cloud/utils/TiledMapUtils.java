@@ -1,4 +1,4 @@
-package cloud.game.utils;
+package cloud.utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -7,8 +7,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-
-import static cloud.game.utils.Constants.UNIT_SCALE;
 
 /**
  * Utilities for the creation of hit-boxes in our tiled maps.
@@ -36,20 +34,18 @@ public class TiledMapUtils {
             if (mapObject instanceof PolygonMapObject) {
                 //TODO: Find the world coords of the shape
                 //TODO: Find the world shape of the object
-
                 //float worldXCoord =
                 //float worldYCoord =
 
                 model.createStaticBody(toPolygonShape((PolygonMapObject) mapObject), 0f, 0f);
 
-                // Turn vertices into a PolygonShape
             } else if (mapObject instanceof RectangleMapObject) {
                 RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
                 //Find the world coodinates of the rectangle
                 float worldXCoord = (rectangleMapObject.getRectangle().x
-                        + rectangleMapObject.getRectangle().width / 2) / UNIT_SCALE;
+                        + rectangleMapObject.getRectangle().width / 2) / Constants.UNIT_SCALE;
                 float worldYCoord = (rectangleMapObject.getRectangle().y
-                        + rectangleMapObject.getRectangle().height / 2) / UNIT_SCALE;
+                        + rectangleMapObject.getRectangle().height / 2) / Constants.UNIT_SCALE;
 
                 //Create new static body at world coordinates.
                 model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord);
@@ -68,7 +64,7 @@ public class TiledMapUtils {
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; i++) {
-            Vector2 current = new Vector2(vertices[i * 2] / UNIT_SCALE, vertices[i * 2 + 1] / UNIT_SCALE);
+            Vector2 current = new Vector2(vertices[i * 2] / Constants.UNIT_SCALE, vertices[i * 2 + 1] / Constants.UNIT_SCALE);
             worldVertices[i] = current;
         }
 
@@ -86,8 +82,8 @@ public class TiledMapUtils {
     public PolygonShape toPolygonShape(RectangleMapObject rectangleMapObject) {
         // Must convert to world units for it align properly
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(rectangleMapObject.getRectangle().width / UNIT_SCALE / 2,
-                rectangleMapObject.getRectangle().height / UNIT_SCALE / 2);
+        shape.setAsBox(rectangleMapObject.getRectangle().width / Constants.UNIT_SCALE / 2,
+                rectangleMapObject.getRectangle().height / Constants.UNIT_SCALE / 2);
         return shape;
     }
 }

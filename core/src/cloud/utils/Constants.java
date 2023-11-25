@@ -1,4 +1,4 @@
-package cloud.game.utils;
+package cloud.utils;
 
 public class Constants {
     public static final float UNIT_SCALE = 16.0f;

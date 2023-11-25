@@ -1,11 +1,11 @@
 package cloud.game;
 
+import cloud.game.levels.Level1;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import cloud.game.levels.Level1In16Bit;
 
-import static cloud.game.utils.Constants.UNIT_SCALE;
+import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Boot extends Game {
 	public SpriteBatch batch;
@@ -17,7 +17,7 @@ public class Boot extends Game {
 		camera = new OrthographicCamera(32*UNIT_SCALE, 18*UNIT_SCALE);
 
 
-		this.setScreen(new Level1In16Bit(this));
+		this.setScreen(new Level1(this));
 
 	}
 

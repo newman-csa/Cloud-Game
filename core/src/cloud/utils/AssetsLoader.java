@@ -1,4 +1,4 @@
-package cloud.game.utils;
+package cloud.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
