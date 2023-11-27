@@ -43,8 +43,6 @@ public class Level1 implements Screen {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
         bodyD = model.createDynamicBody(shape, 10f, 5f);
-        Body bodyK = model.createKinematicBody(shape, -0.75f, 6f);
-        bodyK.setLinearVelocity(0, -1f);
         shape.setAsBox(50f, 0.5f);
         model.createStaticBody(shape,0, -10);
         shape.dispose();
@@ -56,7 +54,7 @@ public class Level1 implements Screen {
     private void update(float delta) {
         // Update Physics and clear screen for next frame
         model.logicStep(delta);
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClearColor(0f, 0f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera's position

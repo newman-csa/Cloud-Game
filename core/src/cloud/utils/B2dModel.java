@@ -64,7 +64,7 @@ public class B2dModel {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.restitution = 0.8f;
+        fixtureDef.restitution = 0.37f;
         body.createFixture(fixtureDef);
         return body;
     }

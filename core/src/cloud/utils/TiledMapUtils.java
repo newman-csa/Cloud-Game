@@ -8,6 +8,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
+import static cloud.utils.Constants.UNIT_SCALE;
+
 /**
  * Utilities for the creation of hit-boxes in our tiled maps.
  * Unironically took me 8 hours on a weekend :thumbs_up:
@@ -43,9 +45,9 @@ public class TiledMapUtils {
                 RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
                 //Find the world coodinates of the rectangle
                 float worldXCoord = (rectangleMapObject.getRectangle().x
-                        + rectangleMapObject.getRectangle().width / 2) / Constants.UNIT_SCALE;
+                        + rectangleMapObject.getRectangle().width / 2) / UNIT_SCALE;
                 float worldYCoord = (rectangleMapObject.getRectangle().y
-                        + rectangleMapObject.getRectangle().height / 2) / Constants.UNIT_SCALE;
+                        + rectangleMapObject.getRectangle().height / 2) / UNIT_SCALE;
 
                 //Create new static body at world coordinates.
                 model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord);
