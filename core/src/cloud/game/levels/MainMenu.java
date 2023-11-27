@@ -4,7 +4,11 @@ import cloud.game.Boot;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import static java.lang.System.exit;
 
 public class MainMenu implements Screen{
     final Boot boot;
@@ -17,21 +21,39 @@ public class MainMenu implements Screen{
 
     @Override
     public void render(float delta){
-        //TODO:change these colors
-        ScreenUtils.clear(0,0,0.2f,1);
+        ScreenUtils.clear(0,0.3f,0.7f,1);
 
         camera.update();
         boot.batch.setProjectionMatrix(camera.combined);
 
+        //TODO: make this background more interesting
         boot.batch.begin();
-        boot.font.draw(boot.batch, "Welcome to Skyline!", 100, 50);
-        boot.font.draw(boot.batch, "Click anywhere to begin", 100, 100);
+        //yippie I found this
+        boot.font.getData().setScale(2);
+        boot.font.draw(boot.batch, "Welcome to Skyline!", 250, 350);
+//        boot.font.draw(boot.batch, "Click anywhere to begin", 240, 300);
+        boot.font.draw(boot.batch, "Level Select", 50, 250);
+        Rectangle rectLevelSelect = new Rectangle(50,250,100,50);
+        boot.font.draw(boot.batch, "Quit Game", 600, 250);
+        Rectangle rectQuit = new Rectangle(950,330,250,50);
         boot.batch.end();
 
-        if(Gdx.input.isTouched()){
-            boot.setScreen(new Level1(boot));
+
+        Rectangle mouseRect = new Rectangle(Gdx.input.getX(), Gdx.input.getY(), 1, 1);
+
+        if(Gdx.input.isTouched() && mouseRect.overlaps(rectLevelSelect)){
+            boot.setScreen(new LevelSelect(boot));
             dispose();
+        }else if (Gdx.input.isTouched() && mouseRect.overlaps(rectQuit)){
+            dispose();
+            exit(0);
+            //wow that actually worked very easily
         }
+        Vector3 mousePos = new Vector3();
+        mousePos.set(Gdx.input.getX(),Gdx.input.getY(),0);
+        camera.unproject(mousePos);
+        mouseRect.x = mousePos.x;
+        mouseRect.y = mousePos.y;
     }
 
 
