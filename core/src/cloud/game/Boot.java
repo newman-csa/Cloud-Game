@@ -20,6 +20,7 @@ public class Boot extends Game {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera(32*UNIT_SCALE, 18*UNIT_SCALE);
 		font = new BitmapFont();
+		font.getData().setScale(2);
 
 
 		this.setScreen(new MainMenu(this));
@@ -34,5 +35,6 @@ public class Boot extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		font.dispose();
 	}
 }

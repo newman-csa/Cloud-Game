@@ -28,7 +28,7 @@ public class MainMenu implements Screen{
 
         boot.batch.begin();
         //yippie I found this
-        boot.font.getData().setScale(2);
+//        boot.font.getData().setScale(2);
         boot.font.draw(boot.batch, "Welcome to Skyline!", 250, 350);
 //        boot.font.draw(boot.batch, "Click anywhere to begin", 240, 300);
         boot.font.draw(boot.batch, "Level Select", 50, 250);
