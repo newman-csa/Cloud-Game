@@ -27,7 +27,7 @@ public class LevelSelect implements Screen {
         boot.batch.begin();
         boot.font.getData().setScale(2);
         boot.font.draw(boot.batch, "Level 1", 100, 350);
-        Rectangle level1Rect = new Rectangle(150,200,150,50);
+        Rectangle level1Rect = new Rectangle("Level 1".length()*20,200,150,50);
         //sorry I gave up on tables
         //rectangles are the only thing I know
         //all is rectangles
