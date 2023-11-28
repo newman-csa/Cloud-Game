@@ -54,7 +54,7 @@ public class Level1 implements Screen {
     private void update(float delta) {
         // Update Physics and clear screen for next frame
         model.logicStep(delta);
-        Gdx.gl.glClearColor(0f, 0f, 0.5f, 1f);
+        Gdx.gl.glClearColor(0f, 0.3f, 0.7f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update camera's position

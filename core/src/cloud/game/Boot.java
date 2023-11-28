@@ -1,6 +1,7 @@
 package cloud.game;
 
 import cloud.game.levels.Level1;
+import cloud.game.levels.LevelSelect;
 import cloud.game.levels.MainMenu;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;

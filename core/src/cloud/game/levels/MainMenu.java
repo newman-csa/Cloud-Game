@@ -26,14 +26,13 @@ public class MainMenu implements Screen{
         camera.update();
         boot.batch.setProjectionMatrix(camera.combined);
 
-        //TODO: make this background more interesting
         boot.batch.begin();
         //yippie I found this
         boot.font.getData().setScale(2);
         boot.font.draw(boot.batch, "Welcome to Skyline!", 250, 350);
 //        boot.font.draw(boot.batch, "Click anywhere to begin", 240, 300);
         boot.font.draw(boot.batch, "Level Select", 50, 250);
-        Rectangle rectLevelSelect = new Rectangle(50,250,100,50);
+        Rectangle rectLevelSelect = new Rectangle(50,330,250,50);
         boot.font.draw(boot.batch, "Quit Game", 600, 250);
         Rectangle rectQuit = new Rectangle(950,330,250,50);
         boot.batch.end();
