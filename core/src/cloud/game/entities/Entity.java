@@ -1,6 +1,9 @@
 package cloud.game.entities;
 
+import cloud.utils.B2dModel;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public abstract class Entity {
     protected float xCoord, yCoord, width, height;
@@ -20,6 +23,9 @@ public abstract class Entity {
         this.speedRate = 0;
     }
     public abstract void update();
-    public abstract void render();
+    public abstract void render(SpriteBatch batch);
 
+    public Body getBody() {
+        return body;
+    }
 }

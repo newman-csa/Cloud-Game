@@ -13,7 +13,7 @@ public class B2dModel {
     private World world;
 
     public B2dModel() {
-        world = new World(new Vector2(0, -10f), true);
+        world = new World(new Vector2(0, -25f), true);
     }
 
     public World getWorld() {

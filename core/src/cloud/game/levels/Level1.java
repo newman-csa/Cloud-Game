@@ -1,5 +1,6 @@
 package cloud.game.levels;
 
+import cloud.game.entities.Player;
 import cloud.utils.B2dModel;
 import cloud.utils.TiledMapUtils;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ import static cloud.utils.Constants.UNIT_SCALE;
 public class Level1 implements Screen {
     private final Boot boot;
     private final AssetsLoader assetsLoader;
+    private final Player player;
     private final TiledMapUtils mapUtils;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer debugRenderer;
@@ -26,7 +28,6 @@ public class Level1 implements Screen {
     private TiledMap map;
 
     // TODO: Test variables to be put in a different class
-    private Body bodyD;
 
     public Level1(final Boot boot) {
         this.boot = boot;
@@ -39,10 +40,12 @@ public class Level1 implements Screen {
         mapUtils = new TiledMapUtils(map, model);
         mapUtils.parseMapObjects();
 
-        // Debug shape creation of different body types
+        // Debug shape creation of different body types and a player
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
-        bodyD = model.createDynamicBody(shape, 10f, 5f);
+        Body bodyD = model.createDynamicBody(shape, 10f, 5f);
+        player = new Player(bodyD,16 / UNIT_SCALE / 2,16 / UNIT_SCALE / 2, 10f, 5f);
+
         shape.setAsBox(50f, 0.5f);
         model.createStaticBody(shape,0, -10);
         shape.dispose();
@@ -57,11 +60,14 @@ public class Level1 implements Screen {
         Gdx.gl.glClearColor(0f, 0f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //Update player input
+        player.update();
+
         // Update camera's position
         Vector3 position = boot.camera.position;
-        position.x = Math.round(bodyD.getPosition().x * UNIT_SCALE * 10f) / 10f;
-        position.y = Math.round(bodyD.getPosition().y * UNIT_SCALE * 10f) / 10f;
-        System.out.println(bodyD.getPosition().x);
+        position.x = Math.round(player.getBody().getPosition().x * UNIT_SCALE * 10f) / 10f;
+        position.y = Math.round(player.getBody().getPosition().y * UNIT_SCALE * 10f) / 10f;
+        System.out.println(player.getBody().getPosition().y);
         boot.camera.position.set(position);
         boot.camera.update();
     }
