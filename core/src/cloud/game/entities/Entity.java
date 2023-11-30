@@ -10,10 +10,8 @@ public abstract class Entity {
     protected float xVel, yVel, speedRate;
     protected Body body;
 
-    public Entity(Body body, float width, float height, float xCoord, float yCoord) {
+    public Entity(Body body, float xCoord, float yCoord) {
         this.body = body;
-        this.width = width;
-        this.height = height;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
 

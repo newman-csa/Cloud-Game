@@ -14,9 +14,9 @@ public class Player extends Entity {
     private final float DAMPING = 0.83f;
     private boolean isGrounded;
 
-    public Player(Body body, float width, float height, float xCoord, float yCoord) {
+    public Player(Body body, float xCoord, float yCoord) {
         // https://www.geeksforgeeks.org/difference-between-super-and-super-in-java-with-examples/
-        super(body, width, height, xCoord, yCoord);
+        super(body, xCoord, yCoord);
         this.speedRate = 10f;
         isGrounded = true;
 
@@ -47,7 +47,7 @@ public class Player extends Entity {
         }
 
         // This is just wrong but I'll fix later
-        if(body.getLinearVelocity().y == 0) {
+        if(Math.abs(body.getLinearVelocity().y) <= 0) {
             isGrounded = true;
         }
 
