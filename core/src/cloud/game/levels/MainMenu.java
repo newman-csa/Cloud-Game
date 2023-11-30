@@ -29,12 +29,12 @@ public class MainMenu implements Screen{
         boot.batch.begin();
         //yippie I found this
 //        boot.font.getData().setScale(2);
-        boot.font.draw(boot.batch, "Welcome to Skyline!", 250, 350);
+        boot.font12.draw(boot.batch, "Welcome to Skyline!", 225, 350);
 //        boot.font.draw(boot.batch, "Click anywhere to begin", 240, 300);
-        boot.font.draw(boot.batch, "Level Select", 50, 250);
-        Rectangle rectLevelSelect = new Rectangle(50,330,250,50);
-        boot.font.draw(boot.batch, "Quit Game", 600, 250);
-        Rectangle rectQuit = new Rectangle(950,330,250,50);
+        boot.font12.draw(boot.batch, "Level Select", 50, 250);
+        Rectangle rectLevelSelect = new Rectangle(50,330,350,50);
+        boot.font12.draw(boot.batch, "Quit Game", 600, 250);
+        Rectangle rectQuit = new Rectangle(950,330,300,50);
         boot.batch.end();
 
 
