@@ -4,3 +4,26 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 eclipse.project.name = appName + "-core"
+
+
+
+allprojects {
+    dependencies {
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    }
+}
+
+project(":desktop") {
+    //Uses the java-library plugin (provides compiling, execution, etc.).
+    //That one is bundled with gradle, so we didn’t have to define it in the buildscript section.
+    apply plugin: "java-library"
+
+    //Defines dependencies for the :desktop project
+    dependencies {
+        //Adds dependency on the :core project as well as the gdx lwjgl backend and native dependencies
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}
+

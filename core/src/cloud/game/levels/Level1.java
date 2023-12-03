@@ -54,10 +54,11 @@ public class Level1 implements Screen {
 
     private void update(float delta) {
         // Update Physics and Clear Screen for Next Frame
-        ScreenUtils.clear(0f, 0f, 0.5f, 1f);
+        ScreenUtils.clear(0f, 0.3f, 0.7f, 1f);
         model.logicStep(delta);
         boot.camera.update();
         player.update();
+
 
         // Update Camera Position
         Vector3 position = boot.camera.position;

@@ -1,22 +1,39 @@
 package cloud.game;
 
 import cloud.game.levels.Level1;
+import cloud.game.levels.LevelSelect;
+import cloud.game.levels.MainMenu;
 import cloud.utils.AssetsLoader;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
+import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Boot extends Game {
 	public OrthographicCamera camera;
-	public AssetsLoader assetsLoader;
-
+	public BitmapFont font12;
+  public AssetsLoader assetsLoader;
+	
 	@Override
 	public void create () {
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NovaSquare-Regular.ttf"));
 		camera = new OrthographicCamera();
 		assetsLoader = new AssetsLoader();
-
+  	batch = new SpriteBatch();
+  
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 35;
+		font12 = generator.generateFont(parameter);
+		generator.dispose();
+    
 		camera.setToOrtho(false, 32f , 18f);
 
-		this.setScreen(new Level1(this));
+		this.setScreen(new MainMenu(this));
+
 	}
 
 	@Override
@@ -26,6 +43,8 @@ public class Boot extends Game {
 
 	@Override
 	public void dispose () {
+		batch.dispose();
+		font12.dispose();
 		assetsLoader.assetManager.dispose();
 
 	}
