@@ -20,55 +20,55 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Level1 implements Screen {
+    private final Boot boot;
     private final Player player;
-    private final TiledMapUtils mapUtils;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private Box2DDebugRenderer debugRenderer;
-    private B2dModel model;
-    private TiledMap map;
-    private OrthographicCamera camera;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final Box2DDebugRenderer debugRenderer;
+    private final B2dModel model;
+    private final TiledMap map;
 
     // TODO: Test variables to be put in a different class
 
-    public Level1() {
+    public Level1(final Boot boot) {
+        this.boot = boot;
+
         // Load Map and Collision
-        camera = new OrthographicCamera();
-        map = new AssetsLoader().loadMap("level1/level1.tmx");
+        map = boot.assetsLoader.loadMap("level1/level1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / UNIT_SCALE);
-        camera.setToOrtho(false, 32f , 18f);
+
+        // Load All Hit-boxes and Boundaries for Map
         model = new B2dModel();
-        mapUtils = new TiledMapUtils(map, model);
+        TiledMapUtils mapUtils = new TiledMapUtils(map, model);
         mapUtils.parseMapObjects();
 
-        // Debug shape creation of different body types and a player
+        // Load Hit Boxes for Player
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(1/2f ,1/2f);
         Body body = model.createDynamicBody(shape, 10f, 10f);
         player = new Player(body, 10f, 5f);
 
-
-        shape.setAsBox(50f, 0.5f);
-        model.createStaticBody(shape,0, -10);
+        // Load Boundary for the Floor
+        shape.setAsBox(100f, 0.5f);
+        model.createStaticBody(shape,-10, -10);
         shape.dispose();
 
+        // DEBUG CODE
         debugRenderer = new Box2DDebugRenderer(true,true,true,true,false,true);
-
     }
 
     private void update(float delta) {
-        // Update Physics and clear screen for next frame
-        Gdx.gl.glClearColor(0f, 0f, 0.5f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        // Update Physics and Clear Screen for Next Frame
+        ScreenUtils.clear(0f, 0f, 0.5f, 1f);
         model.logicStep(delta);
-        camera.update();
+        boot.camera.update();
         player.update();
 
-        Vector3 position = camera.position;
+        // Update Camera Position
+        Vector3 position = boot.camera.position;
         position.x = Math.round(player.getBody().getPosition().x * 100f) / 100f;
         position.y = Math.round(player.getBody().getPosition().y * 100f) / 100f ;
-        camera.position.set(position);
-        camera.update();
-
+        boot.camera.position.set(position);
+        boot.camera.update();
 
     }
 
@@ -76,9 +76,11 @@ public class Level1 implements Screen {
     public void render(float delta) {
         update(delta);
 
-        mapRenderer.setView(camera);
+        mapRenderer.setView(boot.camera);
         mapRenderer.render();
-        //debugRenderer.render(model.getWorld(), camera.combined);
+
+        // DEBUG CODE
+        debugRenderer.render(model.getWorld(), boot.camera.combined);
     }
 
     @Override
@@ -106,6 +108,7 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
+        boot.assetsLoader.assetManager.clear();
         map.dispose();
         mapRenderer.dispose();
         debugRenderer.dispose();
