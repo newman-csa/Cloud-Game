@@ -32,6 +32,7 @@ public class TiledMapUtils {
     public void parseMapObjects() {
         MapObjects mapObjects = map.getLayers().get("collision").getObjects();
 
+        // Parse World Boundaries
         for (MapObject mapObject : mapObjects) {
             if (mapObject instanceof PolygonMapObject) {
                 //TODO: Find the world coords of the shape
@@ -53,6 +54,21 @@ public class TiledMapUtils {
                 model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord);
             }
         }
+
+        mapObjects = map.getLayers().get("objects").getObjects();
+
+        // Hit-boxes for flag
+        for (MapObject mapObject : mapObjects) {
+            if(mapObject.getName().equals("flag")) {
+                System.out.println("Something's Gone Wrong");
+            } else if (mapObject.getName().equals("coin")) {
+                System.out.println("Something's Gone Wrong");
+            }  else {
+                System.out.println("Something's Gone Wrong");
+            }
+
+        }
+
     }
 
     /**TODO: this, so we can make triangles if we want, though not really needed

@@ -14,38 +14,39 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Boot extends Game {
-	public OrthographicCamera camera;
-	public BitmapFont font12;
-  public AssetsLoader assetsLoader;
-	
-	@Override
-	public void create () {
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NovaSquare-Regular.ttf"));
-		camera = new OrthographicCamera();
-		assetsLoader = new AssetsLoader();
-  	batch = new SpriteBatch();
-  
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 35;
-		font12 = generator.generateFont(parameter);
-		generator.dispose();
-    
-		camera.setToOrtho(false, 32f , 18f);
+    public OrthographicCamera camera;
+    public BitmapFont font12;
+    public AssetsLoader assetsLoader;
+    public SpriteBatch batch;
 
-		this.setScreen(new MainMenu(this));
+    @Override
+    public void create() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("NovaSquare-Regular.ttf"));
+        camera = new OrthographicCamera();
+        assetsLoader = new AssetsLoader();
+        batch = new SpriteBatch();
 
-	}
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 35;
+        font12 = generator.generateFont(parameter);
+        generator.dispose();
 
-	@Override
-	public void render () {
-		super.render();
-	}
+        camera.setToOrtho(false, 32f, 18f);
 
-	@Override
-	public void dispose () {
-		batch.dispose();
-		font12.dispose();
-		assetsLoader.assetManager.dispose();
+        this.setScreen(new MainMenu(this));
 
-	}
+    }
+
+    @Override
+    public void render() {
+        super.render();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        font12.dispose();
+        assetsLoader.assetManager.dispose();
+
+    }
 }
