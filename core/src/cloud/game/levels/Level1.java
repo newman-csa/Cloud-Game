@@ -1,10 +1,9 @@
 package cloud.game.levels;
 
+import cloud.game.entities.Player;
 import cloud.utils.B2dModel;
 import cloud.utils.TiledMapUtils;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
@@ -12,71 +11,73 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import cloud.game.Boot;
-import cloud.utils.AssetsLoader;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import static cloud.utils.Constants.UNIT_SCALE;
 
 public class Level1 implements Screen {
     private final Boot boot;
-    private final AssetsLoader assetsLoader;
-    private final TiledMapUtils mapUtils;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private Box2DDebugRenderer debugRenderer;
-    private B2dModel model;
-    private TiledMap map;
+    private final Player player;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final Box2DDebugRenderer debugRenderer;
+    private final B2dModel model;
+    private final TiledMap map;
 
     // TODO: Test variables to be put in a different class
-    private Body bodyD;
 
     public Level1(final Boot boot) {
         this.boot = boot;
 
         // Load Map and Collision
-        assetsLoader = new AssetsLoader();
-        map = assetsLoader.loadMap("level1/level1.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/UNIT_SCALE);
+        map = boot.assetsLoader.loadMap("level1/level1.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / UNIT_SCALE);
+
+        // Load All Hit-boxes and Boundaries for Map
         model = new B2dModel();
-        mapUtils = new TiledMapUtils(map, model);
+        TiledMapUtils mapUtils = new TiledMapUtils(map, model);
         mapUtils.parseMapObjects();
 
-        // Debug shape creation of different body types
+        // Load Hit Boxes for Player
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(16 / UNIT_SCALE / 2, 16 / UNIT_SCALE / 2);
-        bodyD = model.createDynamicBody(shape, 10f, 5f);
-        shape.setAsBox(50f, 0.5f);
-        model.createStaticBody(shape,0, -10);
+        shape.setAsBox(1/2f ,1/2f);
+        Body body = model.createDynamicBody(shape, 10f, 10f);
+        player = new Player(body, 10f, 5f);
+
+        // Load Boundary for the Floor
+        shape.setAsBox(100f, 0.5f);
+        model.createStaticBody(shape,-10, -10);
         shape.dispose();
 
-        debugRenderer = new Box2DDebugRenderer(true,true,true,true,true,true);
-
+        // DEBUG CODE
+        debugRenderer = new Box2DDebugRenderer(true,true,true,true,false,true);
     }
 
     private void update(float delta) {
-        // Update Physics and clear screen for next frame
+        // Update Physics and Clear Screen for Next Frame
+        ScreenUtils.clear(0f, 0.3f, 0.7f, 1f);
         model.logicStep(delta);
-        Gdx.gl.glClearColor(0f, 0.3f, 0.7f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        boot.camera.update();
+        player.update();
 
-        // Update camera's position
+
+        // Update Camera Position
         Vector3 position = boot.camera.position;
-        position.x = Math.round(bodyD.getPosition().x * UNIT_SCALE * 10f) / 10f;
-        position.y = Math.round(bodyD.getPosition().y * UNIT_SCALE * 10f) / 10f;
-        System.out.println(bodyD.getPosition().x);
+        position.x = Math.round(player.getBody().getPosition().x * 100f) / 100f;
+        position.y = Math.round(player.getBody().getPosition().y * 100f) / 100f ;
         boot.camera.position.set(position);
         boot.camera.update();
+
     }
 
     @Override
     public void render(float delta) {
         update(delta);
-        //boot.batch.setProjectionMatrix(boot.camera.combined);
 
-        debugRenderer.render(model.getWorld(), boot.camera.combined.scl(UNIT_SCALE));
-
-        // TODO: Camera does not move properly with player, causing the map to not render
         mapRenderer.setView(boot.camera);
         mapRenderer.render();
-        //player.update(Gdx.graphics.getDeltaTime());
+
+        // DEBUG CODE
+        debugRenderer.render(model.getWorld(), boot.camera.combined);
     }
 
     @Override
@@ -104,8 +105,10 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-        assetsLoader.assetManager.clear();
+        boot.assetsLoader.assetManager.clear();
+        map.dispose();
         mapRenderer.dispose();
+        debugRenderer.dispose();
         model.disposeWorld();
     }
 }
