@@ -13,7 +13,7 @@ public class B2dModel {
     private World world;
 
     public B2dModel() {
-        world = new World(new Vector2(0, -10f), true);
+        world = new World(new Vector2(0, -25f), true);
     }
 
     public World getWorld() {
@@ -39,7 +39,7 @@ public class B2dModel {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.5f;
-        fixtureDef.friction = 0.4f;
+        fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
         return body;
     }
@@ -64,7 +64,7 @@ public class B2dModel {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.restitution = 0.37f;
+        fixtureDef.restitution = 0f;
         body.createFixture(fixtureDef);
         return body;
     }
@@ -94,7 +94,7 @@ public class B2dModel {
 
     // our game logic here
     public void logicStep(float delta) {
-        world.step(delta, 6, 6);
+        world.step(delta, 6, 2);
     }
 
     public void disposeWorld() {
