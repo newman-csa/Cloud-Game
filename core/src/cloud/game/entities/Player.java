@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import cloud.utils.B2dModel;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import static cloud.utils.Constants.UNIT_SCALE;
 

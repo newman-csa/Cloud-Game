@@ -1,5 +1,6 @@
 package cloud.utils;
 
+import cloud.game.B2dModel;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -60,9 +61,25 @@ public class TiledMapUtils {
         // Hit-boxes for flag
         for (MapObject mapObject : mapObjects) {
             if(mapObject.getName().equals("flag")) {
-                System.out.println("Something's Gone Wrong");
+                RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
+                //Find the world coodinates of the rectangle
+                float worldXCoord = (rectangleMapObject.getRectangle().x
+                        + rectangleMapObject.getRectangle().width / 2) / UNIT_SCALE;
+                float worldYCoord = (rectangleMapObject.getRectangle().y
+                        + rectangleMapObject.getRectangle().height / 2) / UNIT_SCALE;
+
+                //Create new static body at world coordinates.
+                model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord,0.1f);
             } else if (mapObject.getName().equals("coin")) {
-                System.out.println("Something's Gone Wrong");
+                RectangleMapObject rectangleMapObject = (RectangleMapObject) mapObject;
+                //Find the world coodinates of the rectangle
+                float worldXCoord = (rectangleMapObject.getRectangle().x
+                        + rectangleMapObject.getRectangle().width / 2) / UNIT_SCALE;
+                float worldYCoord = (rectangleMapObject.getRectangle().y
+                        + rectangleMapObject.getRectangle().height / 2) / UNIT_SCALE;
+
+                //Create new static body at world coordinates.
+                model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord,0.2f);
             }  else {
                 System.out.println("Something's Gone Wrong");
             }

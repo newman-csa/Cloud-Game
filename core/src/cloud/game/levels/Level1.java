@@ -1,7 +1,8 @@
 package cloud.game.levels;
 
 import cloud.game.entities.Player;
-import cloud.utils.B2dModel;
+import cloud.game.B2dContactListener;
+import cloud.game.B2dModel;
 import cloud.utils.TiledMapUtils;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -22,6 +23,7 @@ public class Level1 implements Screen {
     private final Box2DDebugRenderer debugRenderer;
     private final B2dModel model;
     private final TiledMap map;
+    private final B2dContactListener listener;
 
     // TODO: Test variables to be put in a different class
 
@@ -33,9 +35,10 @@ public class Level1 implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / UNIT_SCALE);
 
         // Load All Hit-boxes and Boundaries for Map
-        model = new B2dModel();
+        model = new B2dModel(boot);
         TiledMapUtils mapUtils = new TiledMapUtils(map, model);
         mapUtils.parseMapObjects();
+        listener = new B2dContactListener(model,boot);
 
         // Load Hit Boxes for Player
         PolygonShape shape = new PolygonShape();

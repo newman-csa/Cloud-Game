@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 
 import static cloud.utils.Constants.UNIT_SCALE;
 
@@ -36,6 +37,8 @@ public class Boot extends Game {
         this.setScreen(new MainMenu(this));
 
     }
+
+
 
     @Override
     public void render() {
