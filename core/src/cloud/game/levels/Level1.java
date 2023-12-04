@@ -16,6 +16,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import static cloud.utils.Constants.UNIT_SCALE;
 
+
+/**
+ * This Function just loads maps in general, not just level 1
+ */
 public class Level1 implements Screen {
     private final Boot boot;
     private final Player player;
@@ -23,22 +27,24 @@ public class Level1 implements Screen {
     private final Box2DDebugRenderer debugRenderer;
     private final B2dModel model;
     private final TiledMap map;
-    private final B2dContactListener listener;
 
     // TODO: Test variables to be put in a different class
 
-    public Level1(final Boot boot) {
+    public Level1(final Boot boot, String pathToMap) {
         this.boot = boot;
+        // Debugging Class Instances
+        System.out.println("Current Instance: " + this.toString());
+
 
         // Load Map and Collision
-        map = boot.assetsLoader.loadMap("level1/level1.tmx");
+        map = boot.assetsLoader.loadMap(pathToMap);
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / UNIT_SCALE);
 
         // Load All Hit-boxes and Boundaries for Map
         model = new B2dModel(boot);
         TiledMapUtils mapUtils = new TiledMapUtils(map, model);
         mapUtils.parseMapObjects();
-        listener = new B2dContactListener(model,boot);
+        B2dContactListener listener = new B2dContactListener(model, boot);
 
         // Load Hit Boxes for Player
         PolygonShape shape = new PolygonShape();
@@ -69,6 +75,10 @@ public class Level1 implements Screen {
         position.y = Math.round(player.getBody().getPosition().y * 100f) / 100f ;
         boot.camera.position.set(position);
         boot.camera.update();
+
+        // Debugging camera parameters
+        System.out.println("Rendering Camera: " + boot.camera.position + ", " + boot.camera.zoom + "\nPlayer Camera: " + player.getBody().getPosition());
+
 
     }
 

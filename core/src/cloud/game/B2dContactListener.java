@@ -15,16 +15,16 @@ public class B2dContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        System.out.println("Contact");
+        //System.out.println("Contact");
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
-        System.out.println(fa.getBody().getType()+" has hit "+ fb.getBody().getType());
+        //System.out.println(fa.getBody().getType()+" has hit "+ fb.getBody().getType());
         if(fa.getDensity()==0.1f || fb.getDensity()==0.1f){
-            System.out.println("Flag Touched");
+            //System.out.println("Flag Touched");
             fa.getBody().setUserData("Flag");
             boot.setScreen(new LevelSelect(boot));
         }else if(fa.getDensity()==0.2f){
-            System.out.println("Coin Touched");
+            //System.out.println("Coin Touched");
             fa.getBody().setUserData("Coin");
         }
     }

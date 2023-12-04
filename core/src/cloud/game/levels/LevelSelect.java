@@ -43,15 +43,15 @@ public class LevelSelect implements Screen {
 
         if(Gdx.input.isTouched() && mouseRect.overlaps(level1Rect)) {
             //goes to level 1
-            boot.setScreen(new Level1(boot));
+            boot.setScreen(new Level1(boot, "level1/level1.tmx"));
             dispose();
         }else if(Gdx.input.isTouched() && mouseRect.overlaps(level2Rect)) {
             //goes to level 2
-            boot.setScreen(new Level1(boot));
+            boot.setScreen(new Level1(boot, "level2/Level2.tmx"));
             dispose();
         }else if(Gdx.input.isTouched() && mouseRect.overlaps(level3Rect)) {
             //goes to level 3
-            boot.setScreen(new Level1(boot));
+            boot.setScreen(new Level1(boot, "level3/level3.tmx"));
             dispose();
         }
     }

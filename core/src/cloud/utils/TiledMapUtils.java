@@ -81,6 +81,7 @@ public class TiledMapUtils {
 //
 //                    //Create new static body at world coordinates.
 //                    model.createStaticBody(toPolygonShape(rectangleMapObject), worldXCoord, worldYCoord,0.2f);
+                System.out.println("Something's Gone Wrong");
             }  else {
                 System.out.println("Something's Gone Wrong");
             }

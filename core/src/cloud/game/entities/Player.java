@@ -30,15 +30,15 @@ public class Player extends Entity {
     private void userInput() {
         // The 0 makes it not quadratic
         xVel = 0;
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             xVel = 1f;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             xVel = -1f;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W) && isGrounded) {
+        if((Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && isGrounded) {
             float force = body.getMass() * 500;
             body.applyForce(new Vector2(0, force), body.getPosition(), true);
             isGrounded = false;
